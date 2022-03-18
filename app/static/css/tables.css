@@ -1,0 +1,54 @@
+table {
+    width: 100%;
+    padding: 30px;
+}
+
+th {
+    height: 50px;
+    text-align: inherit;
+    padding: 0px 20px;
+}
+
+td {
+    height: 70px;
+    background-color: #ffffff;
+    padding: 0px 20px;
+}
+
+select {
+    background: whitesmoke;
+    border: none;
+    width: 105px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+:focus-visible {
+    outline: none;
+}
+
+
+span.profile-picture {
+    background-color: aliceblue;
+    color: #bcbcbc;
+    border-radius: 100%;
+    padding: 8px;
+    font-size: 30px;
+}
+
+td.customer-credentials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+}
+
+.view-order-invoice-btn {
+    border: none;
+    background-color: white;
+    color: #0dba73;
+    text-decoration: underline;
+    font-weight: 700;
+}

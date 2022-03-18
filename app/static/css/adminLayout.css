@@ -1,0 +1,88 @@
+body {
+    display: block;
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "NotoSans", sans-serif;
+}
+
+header { grid-area: header; }
+menu { grid-area: menu; }
+main { grid-area: main; }
+footer { grid-area: footer; }
+
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+      'menu header header header header header'
+      'menu main main main main main';
+    /* padding: 10px; */
+}
+
+
+
+menu{
+    background-color: #06603b;
+    margin: 0;
+    min-height: 100vh;
+    width: 17vw;
+
+    display: grid;
+    grid-template-areas: 'mainmenu submenu';
+    padding-inline-start: 0;
+}
+
+header {
+    padding: 10px;
+    height: 5vh;
+}
+
+main {    
+    height: 92vh;
+    background-color: #f4f4f4;
+    width: 83vw;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 1rem 1rem;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.nav-link:hover {
+    background-color: #047c4a;
+}
+
+.nav-link:active {
+    background-color: #047c4a;
+}
+
+.nav-view-title {
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 5px;
+}
+
+
+.mainmenu-grid-container { grid-area: mainmenu; }
+.submenu-grid-container { grid-area: submenu; }
+
+
+.mainmenu-grid-container {
+    width: 4vw;
+    background-color: #05492d;
+
+}
+
+.submenu-grid-container {
+    width: 12vw;
+    padding-left: 15px;
+}

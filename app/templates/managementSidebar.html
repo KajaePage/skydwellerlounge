@@ -1,0 +1,106 @@
+{% extends "managementBase.html" %}
+
+{% block mainmenu %}
+<i class='bx bx-bell' ></i>
+<i class='bx bx-calendar-event' ></i>
+<i class='bx bxs-dashboard' ></i>
+<i class='bx bx-bar-chart' ></i>
+<i class='bx bxs-user' ></i>
+{% endblock %}
+
+
+{% block submenu %}
+
+<p class="nav-view-title">Dashboard</p>
+
+<ul>
+    <li>
+        <a class="nav-link active" href="{{ url_for('home') }}">
+            <i class='bx bxs-dashboard'></i>
+            <span>Overview</span> 
+        </a>
+    </li>
+    <li>
+        <a class="nav-link active" href="{{ url_for('home') }}">
+            <i class='bx bx-cart' ></i>
+            <span>Orders</span> 
+        </a>
+    </li>
+    <li>
+        <a class="nav-link active" href="{{ url_for('home') }}">
+            <i class='bx bx-calendar-event' ></i>
+            <span>Events</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link active" href="{{ url_for('home') }}">
+            <i class='bx bx-calendar-event' ></i>
+            <span>Reservations</span>
+            
+        </a>
+    </li>
+
+</ul>
+{% endblock %}
+
+
+
+<!-- <li>
+    <a class="nav-link active" href="{{ url_for('home') }}">Notifications</a>
+    <span class="notificationsCount"></span>
+</li>
+<li>
+    <a class="nav-link active" href="{{ url_for('home') }}">Analytics</a>
+</li> -->
+
+{% block main %}
+    <table id="customer-events-table">
+        <tr>
+            <th>Invoice</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Customer</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td> <input type="checkbox" name="" id=""> INV-3066</td>
+            <td>Jan 6, 2022</td>
+            <td>
+                <select name="" id="">
+                    <option value="pending" selected>pending</option>
+                    <option value="pending">approved</option>
+                    <option value="pending">waiting</option>
+                    <option value="pending">cancelled</option>
+                </select>
+            </td>
+            <td class="customer-credentials">
+                <span class="profile-picture">DG</span>
+                <div>
+                    <span style="display: block;">Demitri Grant</span>
+                    <span style="display: block;">demitri.grant@gmail.com</span> 
+                </div>
+                
+            </td>
+            <td>$10,000.00 JMD</td>
+            <td>
+                <button class="view-order-invoice-btn">View Invoice</button>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#customer-events-table').DataTable({
+        columns: [
+          null,
+          {searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          null],
+      });
+    });
+  </script>
+{% endblock %}

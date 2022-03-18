@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<form action="{{url_for('createAccount')}}" method = "post">
+
+    <div class="form_container">
+        {{ form.csrf_token }}
+    
+        {{ form.firstname(class_="form-control", placeholder = "Firstname") }}
+
+        {{ form.lastname(class_="form-control", placeholder = "Lastname") }}
+
+        {{ form.email(class_="form-control", placeholder = "Email") }}
+
+        {{ form.password(class_="form-control", placeholder = "Password") }}
+
+        <button type="submit" name="submit" class="btn btn-primary btn-block">Create Account</button>
+ 
+    </div> 
+
+    
+    
+</form>
+
+{% endblock %}

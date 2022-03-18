@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{%block main%}
+
+    <form action="{{ url_for('bookevent') }}" method="post">
+
+        <div class="form_container">
+            {{form.csrf_token}}
+            {{form.eventType(class="form-control")}}<i role="presentation" class="open-indicator"></i>
+            {{form.session(class="form-control")}}
+            {{form.expectGuestCount(class_="form-control", placeholder="How many guests?")}}
+            {{form.tableCount(class_="form-control", placeholder="No. of Tables")}}
+            
+            {{form.eventDate(class="form-control", placeholder="Event Name")}}
+            
+            {{form.eventTime(class_="booking-time-container")}}
+            {{form.phonenumber(class_="form-control", placeholder="Phone Number")}}
+            {{form.specialRequests(class_="form-control", placeholder="Special Requests")}}
+
+            <button type="submit" name="submit" class="btn btn-primary btn-block">BOOK EVENT</button>
+
+        </div>
+
+    </form>
+{%endblock%}
