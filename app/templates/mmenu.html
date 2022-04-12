@@ -1,0 +1,165 @@
+{% extends "managementBase.html" %}
+
+{% block main %}
+
+<div id="add-item-form" class="form-container">
+    <p class="close-popup"><i onclick="bodyContainer()" class='bx bx-x' ></i></p>
+    <form action="{{ url_for('mmenu') }}" method="post" id="uploadForm">
+        <h6 style="margin-left: 20px;font-size: 20px;">Add Menu Item</h6>
+        <hr style="margin: 10px 20px;height: 1px;color: #adb5bd;">
+        {{ form.csrf_token }}
+
+        <div class="shortForm" id="itemTypeDiv">
+            {{ form.itemType.label}}
+            {{ form.itemType(class='form-control', placeholder="Item Type") }}
+        </div>
+        
+        <div class="shortForm" id="itemTitle1Div">
+            {{ form.itemTitle1.label}}
+            {{ form.itemTitle1(class='form-control', placeholder="Item Name") }}
+        </div>
+        
+
+        <div class="shortForm" id="itemPrice1Div">
+            {{ form.itemPrice1.label}}
+            {{ form.itemPrice1(class='form-control', placeholder="Item Price") }}
+        </div>
+
+
+        <div class="shortForm" id="itemPrice2Div">
+            {{ form.itemPrice2.label}}
+            {{ form.itemPrice2(class='form-control', placeholder="Item Price") }}
+        </div>
+        
+
+        <div class="shortForm" id="itemDiscriptionDiv">
+            {{ form.itemDiscription.label}}
+            {{ form.itemDiscription(class='form-control', placeholder="Item Discription") }}
+        </div>
+        
+
+        <div class="shortForm" id="itemAdditionalDetailsDiv">
+            {{ form.itemAdditionalDetails.label}}
+            {{ form.itemAdditionalDetails(class='form-control', placeholder="Item Substitutes") }}
+        </div>
+        
+        <button type="submit" name="submit" class="btn btn-primary btn-block">Add Menu Item</button>
+        
+    </form>
+
+    <form action="{{ url_for('mmenu') }}" method="post" style="display: block;" id="deleteItemForm">
+        <h6 style="margin-left: 20px;font-size: 20px;">Delete Menu Item</h6>
+        <hr style="margin: 5px 20px;height: 1px;color: #adb5bd;">
+        <p style="margin: 25px 20px;padding-right: 30px;font-size: 16px;">Are you sure you wish to delete this item from the menu? Doing so will result in an irreversible action.</p>
+        {{ delete.csrf_token }}
+        {{ delete.delete}}
+        <button type="submit" name="submit" class="btn-delete">Confirm Delete</button>
+        <button class="btn-delete" onclick="bodyContainer()">Cancel</button>
+        
+    </form>
+
+</div>
+
+<div class="table-container">
+
+    <p><h1 class="header-trail" style="color:#b297e9;">Managent System |  <span style="color:#6949a9;margin-left: 10px;"> Menu Management</span></h1></p>
+    
+
+    <div class="cocktail-table-container drink-tables-containers">
+        <h1 class="header-trail">Cocktail Menu</h1>
+        <button onclick="addCocktail()" class="add-button"><i class='bx bx-list-plus'></i></button>
+        <table id="menu-tables" class="hover">
+            <thead>
+                <tr>
+                    <th class="icon-column first-td"></th>
+                    <th class="icon-column"></th>
+                    <th>Cocktail Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cocktailItem in cocktailItems %}
+                <tr class="cocktail-drinks-table-data">
+                    <td class="icon-column first-td"><p style="text-align: center;margin:0;"><i onclick="deleteItem('{{cocktailItem[0]}}')" class='bx bx-trash'></i></i></p></td>
+                    <td class="icon-column"><p style="text-align: center;margin:0;"><i onclick="updateItem('{{cocktailItem[0]}}')" class='bx bxs-edit-alt' ></i></p></td>
+                    <td class="item-name">{{cocktailItem[2]}}</td>
+                    <td class="item-description">{{cocktailItem[6]}}</td>
+                    <td class="item-price money">{{cocktailItem[4]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="side-table-container drink-tables-containers">
+        <div class="mixer-table-container">
+            <h1 class="header-trail">Mixers/Sparklings</h1>
+            <button onclick="addMizerSparkling()" class="add-button"><i class='bx bx-list-plus'></i></button>
+            <table clas="menu-tables" class="hover">
+                <thead>
+                    <tr>
+                        <th class="icon-column first-td"></th>
+                        <th class="icon-column"></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for mixerItem in mixerItems %}
+                    <tr class="cocktail-drinks-table-data">
+                        <td class="icon-column first-td"><p style="text-align: center;margin:0;"><i onclick="deleteItem('{{mixerItem[0]}}')" class='bx bx-trash'></i></i></p></td>
+                        <td class="icon-column"><p style="text-align: center;margin:0;"><i onclick="updateItem('{{mixerItem[0]}}')" class='bx bxs-edit-alt' ></i></p></td>
+                        <td class="item-name">{{mixerItem[2]}}</td>
+                        <td class="item-price money">{{mixerItem[4]}}</td>
+                    </tr>
+                {%endfor%}
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="mixer-table-container">
+            <h1 class="header-trail">Wines</h1>
+            <button onclick="addWine()" class="add-button"><i class='bx bx-list-plus'></i></button>
+            <table  class="hover">
+                <thead>
+                    <tr>
+                        <th class="icon-column first-td"></th>
+                        <th class="icon-column"></th>
+                        <th>Name</th>
+                        <th>Glass</th>
+                        <th>Bottle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for wineItem in wineItems %}
+                    <tr class="cocktail-drinks-table-data">
+                        <td class="icon-column first-td"><p style="text-align: center;margin:0;"><i onclick="deleteItem('{{wineItem[0]}}')" class='bx bx-trash'></i></i></p></td>
+                        <td class="icon-column"><p style="text-align: center;margin:0;"><i onclick="updateItem('{{wineItem[0]}}')" class='bx bxs-edit-alt' ></i></p></td>
+                        <td class="item-name">{{wineItem[2]}}</td>
+                        <td class="item-name money">{{wineItem[4]}}</td>
+                        <td class="item-price money">{{wineItem[5]}}</td>
+                    </tr>
+                {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>    
+
+
+
+
+{% endblock %}
+
+{% block js %}
+  <script>
+    // $(document).ready(function () {
+    //   $('table.hover').DataTable();
+    // });
+
+    $('#menus-nav-option').toggleClass('active');
+  </script>
+{% endblock %}

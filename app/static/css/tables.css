@@ -4,15 +4,25 @@ table {
 }
 
 th {
-    height: 50px;
+    height: 45px;
     text-align: inherit;
     padding: 0px 20px;
+    font-weight: 500;
+    color: #7b4fb2;
+    background-color: #ffffff;
+    border-bottom: solid 4px #f6f8fa;
 }
 
 td {
-    height: 70px;
+    height: 45px;
     background-color: #ffffff;
-    padding: 0px 20px;
+    padding: 0px 15px;
+    border-bottom: solid 4px #f6f8fa;
+    color: #8d8b90;
+}
+
+.first-td{
+    border-left: solid 2px #7b4fb2;
 }
 
 select {
@@ -48,7 +58,15 @@ td.customer-credentials {
 .view-order-invoice-btn {
     border: none;
     background-color: white;
-    color: #0dba73;
-    text-decoration: underline;
-    font-weight: 700;
+    color: #5b67b2;
+    font-weight: 500;
+}
+
+::-webkit-scrollbar {
+    width: 1px;
+  }
+
+
+.activeRow{
+    background-color: #5b67b2;
 }

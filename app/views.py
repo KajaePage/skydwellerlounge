@@ -4,15 +4,32 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
-
+import os
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
+
+
+from app.forms import AddDrinkMenuItem
+from app.forms import Delete
+from app.models import Menu
+
+import locale 
+from sqlalchemy import or_
+
+
 cust = 0
 ###
 # Routing for your application.
 ###
+
+import psycopg2
+
+
+Menu.update_Row("cocktail","Lemonade Frozen"," ",500,1,"Syrup mixed with lime juice and garnished with lemon wheel."," ", 1)
+
+
 
 @app.route('/')
 def home():
@@ -57,29 +74,36 @@ def createAccount():
 def contact():
     return render_template('contact.html')
 
-@app.route('/menu')
+@app.route('/drinksmenu')
 def viewmenu():
-    return render_template('menu.html')
+
+    cocktailItems = Menu.getby_itemType("cocktail")   
+    mixerItems = Menu.getby_itemType("mixer")
+    redwineItems = Menu.getby_itemType("red-wine") 
+    whitewineItems = Menu.getby_itemType("white-wine") 
+
+
+    return render_template('drinksmenu.html', cocktailItems= cocktailItems, mixerItems=mixerItems, redwineItems=redwineItems, whitewineItems=whitewineItems)
 
 
 from app.forms import BookEventForm
 from app.models import Event
 
-@app.route('/bookevent', methods = ['GET', 'POST'])
+@app.route('/make/reservations', methods = ['GET', 'POST'])
 @login_required
-def bookevent():
+def makereservations():
     form = BookEventForm()
 
     if request.method == 'POST':
         # if form.validate_on_submit():
-        eventType = request.form['eventType']
-        session = request.form['session']
-        eventDate = request.form['eventDate']
-        eventTime = request.form['eventTime']
-        expectGuestCount = request.form['expectGuestCount']
-        tableCount = request.form['tableCount']
-        specialRequests = request.form['specialRequests']
-        phonenumber = request.form['phonenumber']
+        eventType = str(request.form['eventType'])
+        session = str(request.form['session'])
+        eventDate = str(request.form['eventDate'])
+        eventTime = str(request.form['eventTime'])
+        expectGuestCount = str(request.form['expectGuestCount'])
+        tableCount = str(request.form['tableCount'])
+        specialRequests = str(request.form['specialRequests'])
+        phonenumber = str(request.form['phonenumber'])
 
         print(cust)
         event = Event(eventType, session, eventDate, eventTime, expectGuestCount, tableCount, specialRequests, phonenumber, cust)
@@ -88,11 +112,28 @@ def bookevent():
 
         return redirect(url_for('profile'))
 
-    return render_template('bookevent.html', form = form)
+    return render_template('makereservations.html', form = form)
 
-@app.route('/adminSystem')
-def admin():
-    return render_template('managementSidebar.html')
+
+@app.route('/book/event', methods = ['GET', 'POST'])
+@login_required
+def bookevent():
+    return render_template('eventCalender.html')
+
+
+@app.route('/myorder', methods = ['GET', 'POST'])
+@login_required
+def myorders():
+    return render_template('myorders.html')
+
+
+@app.route('/myprofile', methods = ['GET', 'POST'])
+@login_required
+def myprofile():
+    return render_template('myprofile.html')
+
+
+
 
 
 def get_customer_info(customer):
@@ -136,6 +177,95 @@ def login():
                 return redirect(url_for("profile"))
 
     return render_template('login.html', form = form)
+
+
+# Management View Routes
+@app.route("/events")
+def mevents():
+    from datetime import datetime
+    today = datetime.today().strftime('%Y-%m-%d')
+    print(today)
+    events = Event.query.filter(Event.eventDate >= today).all()
+    return render_template('mevents.html', events=events)
+
+
+@app.route("/dashboard")
+def mdashboard():
+    events = db.session.query(Event).all()
+
+    return render_template('mdashboard.html', events=events, active='active')
+
+
+@app.route("/notifications")
+def mnotifications():
+    events = db.session.query(Event).all()
+    return render_template('mnotifications.html', events=events, active='active')
+
+
+@app.route("/manageorders")
+def morders():
+    return render_template('morders.html', active='active')
+
+@app.route("/reservations")
+def mreservations():
+    events = db.session.query(Event).all()
+    return render_template('mreservations.html', events=events, active='active')
+
+
+
+@app.route("/managemenu", methods=['GET','POST'])
+def mmenu():
+
+    form = AddDrinkMenuItem()
+    update = AddDrinkMenuItem()
+    delete = Delete()
+
+    cocktailItems = Menu.getby_itemType("cocktail")
+    cocktailItems = Menu.getby_itemType("cocktail")   
+    mixerItems = Menu.getby_itemType("mixer")
+    redwineItems = Menu.getby_itemType("red-wine") 
+    whitewineItems = Menu.getby_itemType("white-wine") 
+    wineItems = redwineItems + whitewineItems
+    
+    if request.method == 'POST':
+        
+        if form.validate_on_submit():
+            itemType = request.form['itemType']
+            itemTitle1 = request.form['itemTitle1']
+            itemTitle2 = " "
+            itemPrice1 = request.form['itemPrice1']
+            itemPrice2 = request.form['itemPrice2']
+
+            itemDiscription = request.form['itemDiscription']
+            itemAdditionalDetails = request.form['itemAdditionalDetails']
+
+
+            menuItem = Menu(itemType, itemTitle1, itemTitle2, itemPrice1, itemPrice2, itemDiscription, itemAdditionalDetails)
+            db.session.add(menuItem)
+            db.session.commit()
+
+            return redirect(url_for("mmenu"))
+
+        
+        
+        if delete.validate_on_submit():
+            id = request.form['delete']
+            Menu.del_item(id)
+            return redirect(url_for("mmenu"))
+
+    return render_template('mmenu.html', form=form, cocktailItems = cocktailItems, mixerItems=mixerItems, wineItems=wineItems, active='active', delete=delete)
+
+@app.route("/customers")
+def mcustomers():
+    customers = db.session.query(CustomerAccount).all()
+    return render_template('mcustomers.html', customers=customers, active='6')
+
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+
+
 
 
 @app.route("/logout")

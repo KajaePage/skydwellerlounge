@@ -1,0 +1,38 @@
+{% extends "managementBase.html" %}
+
+{% block main %}
+<div class="table-container">
+    <h1 class="header-trail" style="color:#b297e9;">Managent System | <span style="color:#6949a9;margin-left: 10px;">Customers</span></h1>
+    <table id="customer-table" class="hover">
+        <thead>
+            <tr>
+                <th class="first-td">Customer ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                <tr class="{{ customer.id }}">
+                    <td class="first-td" >{{ customer.id }}</td>
+                    <td>{{ customer.firstname }}</td>
+                    <td>{{ customer.lastname }}</td>
+                    <td>{{ customer.email }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>        
+    </table>
+</div>    
+{% endblock %}
+
+{% block js %}
+  <script>
+    $(document).ready(function () {
+      $('#customer-table').DataTable();
+    });
+
+    $('#customers-nav-option').toggleClass('active');
+
+  </script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField, DateField, PasswordField, EmailField, IntegerField, TextAreaField, SelectField
+from wtforms import StringField, RadioField, DateField, PasswordField, EmailField, IntegerField, TextAreaField, SelectField, DecimalField
 from wtforms.validators import DataRequired, InputRequired
 
 class newAccountForm(FlaskForm):
@@ -8,6 +8,9 @@ class newAccountForm(FlaskForm):
     email = EmailField("Email", validators = [InputRequired()])
     password = PasswordField("Password", validators = [InputRequired()])
 
+class Delete(FlaskForm):
+    delete = IntegerField("", validators=[DataRequired()])
+    
 
 class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[InputRequired()])
@@ -23,3 +26,16 @@ class BookEventForm(FlaskForm):
     tableCount = IntegerField("", validators=[DataRequired()])
     specialRequests = TextAreaField("", validators=[DataRequired()])
     phonenumber = StringField("", validators=[DataRequired()])
+
+
+class AddDrinkMenuItem(FlaskForm):
+    itemType = SelectField('Item Type', choices=[(' ', 'Show Options'), ('cocktail', 'Cocktail'), ('mixer', 'Mixer'), ('red-wine', 'Red Wine'), ('white-wine', 'White Wine'), ('sparkling', 'Sparkling'), ('beers', 'Beers'), ('whiskey', 'Whiskey/Scotch')], validators=[DataRequired()])
+    itemTitle1 = StringField("Item Name", validators=[DataRequired()])
+    itemTitle2 = StringField("Second Option")
+    itemPrice1 = IntegerField("Item Price",  validators=[DataRequired()])
+    itemPrice2 = IntegerField("Second Price")
+    itemDiscription = TextAreaField("Item Discription")
+    itemAdditionalDetails = TextAreaField("Item Substitutes")
+
+
+# class Cart(FlaskForm):

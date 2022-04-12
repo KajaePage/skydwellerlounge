@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">SDUL</a>
+    <a class="navbar-b" href="{{ url_for('home') }}"><img src="{{ url_for('get_image', filename='logo.png') }}" id="sdullogo"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,32 +13,60 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('viewmenu') }}">Menu</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Upcoming Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Food Gallery</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('contact') }}">Contact Us</a>
         </li>
         
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
-        </li> -->
         
-
-        {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('bookevent') }}">Book Event</a>
-          </li>
-        {% endif %}
       </ul>
 
       <ul class="navbar-nav right">
         
         {% if current_user.is_authenticated %}
+        
+          <div style="display: inline;">
+            <i onclick="openCart()" class='bx bx-cart b' id="clickbait"></i>
+            <span class="notifCount" id="notifCountCart"></span>
+          </div>
+          <i class='bx bx-bell b' ></i>
+          <i class='bx bx-chevron-down' onclick="show('customer-profile-nav-id')"></i>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            <a class="nav-link" >
+              <img src="{{ url_for('get_image', filename='demitri.png') }}" class="profile-image" onclick="show('customer-profile-nav-id')">
+            </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('profile', name = current_user) }}">My Profile</a>
-          </li>
+          <div  id="customer-profile-nav-id" class="customer-profile-nav">
+            <!-- <li class="nav-item"><a class="nav-link b" href="{{ url_for('logout') }}">Profile Settings</a></li> -->
+            <li class="nav-item"><a class="nav-link b" href="{{ url_for('myprofile') }}">View Profile</a></li>
+
+            <hr>
+            <li class="nav-item"><a class="nav-link b" href="{{ url_for('home') }}"><i class='bx bx-message-alt-detail'></i>  Messages</a></li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('bookevent') }}"><i class='bx bx-calendar'></i>  Book Event</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('makereservations') }}"><i class='bx bx-bookmark-alt-plus'></i>  Make Reservations</a>
+            </li>
+
+            <hr>
+            <li class="nav-item"><a class="nav-link b" href="{{ url_for('logout') }}">Logout</a></li>
+            
+          </div>
+
+          <div id="cartContainer">
+            
+            
+          </div>
+
         {% else %}
             <li class="nav-item">
                 <a class="nav-link btn" href="{{ url_for('login') }}">Login</a>

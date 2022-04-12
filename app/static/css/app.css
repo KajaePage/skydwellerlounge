@@ -1,5 +1,6 @@
 body {
     padding-top: 5rem;
+    background-color: beige;
 }
 
 .form-control {
@@ -38,11 +39,16 @@ form{
 
 .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-brand{
     color: black;
+    font-size: 14px;
+    margin: 0px 5px;
 }
 
+.nav-link, a.nav-link.b {
+    color: #787878 !important;
+}
 
 .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark:hover .navbar-brand:hover{
-    color: black;
+    color: rgb(53, 150, 194)!important;
 }
 
 nav.navbar.navbar-expand-lg.navbar-dark.fixed-top {
@@ -60,4 +66,301 @@ a.nav-link.btn {
 ul.navbar-nav.right {
     position: absolute;
     right: 5%;
+}
+
+.profile-image {
+    background-color: #00000015;
+    border-radius: 100%;
+    display: block;
+    margin: 10px 10px 10px 0px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.customer-profile-nav {
+    position: fixed;
+    background-color: #ffffff;
+    width: 250px;
+    right: 90px;
+    top: 65px;
+    padding: 20px;
+    height: auto;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #00000015 !important;
+    display: none;
+}
+
+a.navbar-b {
+    width: 60px;
+    margin-left: 3%;
+}
+
+
+#sdullogo{
+    width: 100%;
+}
+
+hr {
+    background-color: #00000055;
+    margin: 5px;
+}
+
+
+.bx-chevron-down:before, .bx-bell:before{
+    position: absolute;
+    font-size: 20px;
+    top: 45%;
+    right: 90%;
+}
+
+.bx-bell:before{
+    right: 180%;
+}
+
+
+.bx-cart.b:before {
+    content: "\ea36";
+    position: absolute;
+    font-size: 20px;
+    top: 45%;
+    right: 145%;
+}
+
+ul.navbar-nav.mr-auto {
+    margin-left: 10px;
+}
+
+
+/* Menu Page CSS */
+
+.cocktail-item,.side-item {
+    width: 47%;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.coctail-menu-container {
+    background-color: white;
+    filter: drop-shadow(0px 0px 6px #00000033);
+    margin-top: 40px;
+    padding: 50px 30px;
+    width: 80%;
+    height: auto;
+}
+
+.menu-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cocktail-img-1 {
+    width: 26%;
+    position: absolute;
+    left: -20%;
+    top: 15%;
+    filter: none;
+}
+
+
+
+
+ul{
+    list-style-type: none;
+}
+
+
+.bx-heart:before {
+    content: "\eb0a";
+    margin-right: 8px;
+    color: #c86666;
+}
+
+.bx {
+    content: "\ef30";
+    color: #7d7d7d;
+    cursor: pointer;
+}
+
+p.menu-selection-options {
+    margin: 0;
+    text-align: right;
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+
+hr:not([size]) {
+    height: 1.5px;
+}
+
+
+p.item-description, h6.item-title{
+    width: 95%;
+    font-size: 14px;
+}
+
+
+
+h6.item-title{
+    margin: 0;
+    display: inline-block;
+    width: 70%;
+}
+
+span.item-price {
+    color: #b80000;    
+    font-weight: 500;
+    font-size: 14px;
+}
+
+
+#cartContainer {
+    position: fixed;
+    width: 0vw;
+    height: auto;
+    max-height: 90vh;
+    background-color: white;
+    top: 70px;
+    right: 0px;
+    transition: .2s;
+    padding: 20px;
+    display: none;
+}
+
+
+p.cartItemContainerName {
+    margin: 0;
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 2%;
+    width: 50%;
+}
+
+input.cartItemContainercount {
+    width: 45px;
+    border: none;
+    filter: drop-shadow(0px 0px 2px #00000066);
+    border-radius: 5px;
+    padding: 0px 6px;
+}
+
+p.cartItemContainerCount {
+    display: -webkit-inline-box;
+    margin: 0px 2%;
+    font-size: 14px;
+}
+
+p.cartItemContainerPrice {
+    margin: 0px 2%;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.cartItemContainer {
+    padding: 10px;
+    min-height: 64px;
+    background-color: #fbfbfb;
+}
+
+p.cartItemContainerType {
+    font-weight: 300;
+    height: auto;
+    margin: 0;
+    font-size: 13px;
+}
+
+
+.side-item-section {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+span.wine-headings {
+    margin-right: 70px;
+    margin-left: 22px;
+}
+
+h6.item-title.wine {
+    width: 45%;
+}
+
+span.wine-headings.glass {
+    margin-left: 57px;
+    margin-right: 0px;
+}
+
+span.wine-headings.bottle {
+    margin-left: 27px;
+}
+
+span.item-price.money.wine {    
+    padding: 0px 5px;
+    width: 70px !important;
+    display: inline-block;
+}
+
+.menu-subheadings{
+    font-weight: 400;
+    color: #701610;
+    margin-left: 20px;
+    font-family: 'Handlee', cursive;
+}
+
+
+.double-icon-holder{
+    display: inline;
+    height: 0px;
+    overflow: hidden;
+    margin-right: 35px;
+}
+
+p.menu-selection-options {
+    margin: 0;
+    text-align: right;
+    font-size: 18px;
+    margin-top: 8px;
+    transition: .5s;
+    height: 0px;
+    overflow: hidden;
+}
+
+
+#placeOrderButton{
+    padding: 10px 20px;
+    width: 100%;
+    border: none;
+    background-color: #041425;
+    color: white;
+    border-radius: 5px;
+}
+
+
+div#allCartItems {
+    max-height: 80vh;
+    overflow-y: scroll;
+}
+
+span#notifCountCart {
+    position: absolute;
+    top: 33%;
+    right: 136%;
+    font-size: 10px;
+    background-color: #d97878;
+    color: white;
+    padding: 0px 4px;
+    border-radius: 10px;
+}
+
+
+i.bx:hover {
+    color: rgb(53, 150, 194)!important;
+}
+
+
+.navbar-expand-lg .navbar-collapse {
+    margin-left: 60px;
+    font-weight: 600;
 }

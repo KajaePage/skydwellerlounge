@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="menu-container">
+    <div class="coctail-menu-container">        
+        <img src="{{ url_for('get_image', filename='cocktail1.png') }}" id="cocktail-img-1">
+        
+        
+        <ul>          
+            <div class="cocktail-item">
+                <h3 class="menu-subheadings">Cocktail Menu</h3>
+                {%for cocktailItem in cocktailItems%}
+                <li  id="drink-item{{cocktailItem[0]}}" onmouseenter="animatecarticon('icon-containers{{cocktailItem[0]}}')" onmouseleave="removeanimatecarticon('icon-containers{{cocktailItem[0]}}')">
+                    <div style="padding: 0px 20px;">
+                        <p class="menu-selection-options" id="icon-containers{{cocktailItem[0]}}"><i class='bx bx-heart' ></i><i onclick="addToCart('{{cocktailItem[0]}}','{{cocktailItem[2]}}','{{cocktailItem[4]}}',' ')" id="drink-item-cart-icon{{cocktailItem[0]}}" class='bx bx-cart-add' ></i></p>
+                        <div class="menu-item-heading-container"><h6 class="item-title">{{cocktailItem[2]}}</h6><span class="item-price money">{{cocktailItem[4]}}</span></div>
+                        <p class="item-description">{{cocktailItem[6]}}</p>
+                    </div>
+                    <hr>
+                </li>
+                {%endfor%}
+            </div>
+
+            <div class="side-item">
+                <div class="side-item-section">
+                    <h3 class="menu-subheadings">Cocktail Mixers</h3>
+                    {%for mixerItem in mixerItems%}
+                    <li  id="drink-item{{mixerItem[0]}}" onmouseenter="animatecarticon('icon-containers{{mixerItem[0]}}')" onmouseleave="removeanimatecarticon('icon-containers{{mixerItem[0]}}')">
+                        <div style="padding: 0px 20px;">
+                            <p class="menu-selection-options" id="icon-containers{{mixerItem[0]}}"><i class='bx bx-heart' ></i><i onclick="addToCart('{{mixerItem[0]}}','{{mixerItem[2]}}','{{mixerItem[4]}}',' ')" id="drink-item-cart-icon{{mixerItem.id}}" class='bx bx-cart-add' ></i></p>
+                            <div class="menu-item-heading-container"><h6 class="item-title">{{mixerItem[2]}}</h6><span class="item-price money">{{mixerItem[4]}}</span></div>
+                        </div>
+                        <hr>
+                    </li>
+                    {%endfor%}
+                </div>
+
+                <div class="side-item-section">
+                    <h3 class="menu-subheadings">Wine Collection</h3>
+                    <h6 style="margin-bottom: 15px;"><span class="wine-headings">Reds</span> <span class="wine-headings glass">Glass</span> <span class="wine-headings bottle">Bottle</span></h6>
+                    {%for redwineItem in redwineItems%}
+                    <li  id="drink-item{{redwineItem[0]}}" onmouseenter="animatecarticon('icon-containers{{redwineItem[0]}}')" onmouseleave="removeanimatecarticon('icon-containers{{redwineItem[0]}}')">
+                        <div style="padding: 0px 20px;">
+                            <p class="menu-selection-options" id="icon-containers{{redwineItem[0]}}"> 
+                                <span class="double-icon-holder">
+                                    <i class='bx bx-heart' ></i>
+                                    <i onclick="addToCart('{{redwineItem[0]}}','{{redwineItem[2]}}','{{redwineItem[4]}}','glass')" id="drink-item-cart-icon{{redwineItem[0]}}" class='bx bx-cart-add' ></i>
+                                </span> 
+                                <span class="double-icon-holder">
+                                    <i class='bx bx-heart' ></i>
+                                    <i onclick="addToCart('{{redwineItem[0]}}','{{redwineItem[2]}}','{{redwineItem[5]}}', 'bottle')" id="drink-item-cart-icon{{redwineItem[0]}}" class='bx bx-cart-add' ></i>
+                                </span>
+                            </p>
+                            <div class="menu-item-heading-container"><h6 class="item-title wine">{{redwineItem[2]}}</h6><span class="item-price money wine">{{redwineItem[4]}}</span><span class="item-price money wine">{{redwineItem[5]}}</span></div>
+                        </div>
+                        <hr>
+                    </li>
+                    {%endfor%}
+                </div>
+
+                <div class="side-item-section">
+                    <h6><span class="wine-headings">White</span> <span class="wine-headings glass">Glass</span> <span class="wine-headings bottle">Bottle</span></h6>
+                    {%for whitewineItem in whitewineItems%}
+                    <li  id="drink-item{{whitewineItem[0]}}">
+                        <div style="padding: 0px 20px;">
+                            <p class="menu-selection-options" id="icon-containers{{whitewineItem[0]}}"> 
+                                <span class="double-icon-holder">
+                                    <i class='bx bx-heart' ></i>
+                                    <i onclick="addToCart('{{whitewineItem[0]}}','{{whitewineItem[2]}}','{{whitewineItem[4]}}','glass')" id="drink-item-cart-icon{{whitewineItem[0]}}" class='bx bx-cart-add' ></i>
+                                </span> 
+                                <span class="double-icon-holder">
+                                    <i class='bx bx-heart' ></i>
+                                    <i onclick="addToCart('{{whitewineItem[0]}}','{{whitewineItem[2]}}','{{whitewineItem[5]}}', 'bottle')" id="drink-item-cart-icon{{whitewineItem[0]}}" class='bx bx-cart-add' ></i>
+                                </span>
+                            </p>
+                            <div class="menu-item-heading-container"><h6 class="item-title wine">{{whitewineItem[2]}}</h6><span class="item-price money wine">{{whitewineItem[4]}}</span><span class="item-price money wine">{{whitewineItem[5]}}</span></div>
+                        </div>
+                        <hr>
+                    </li>
+                    {%endfor%}
+                </div>
+            </div>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

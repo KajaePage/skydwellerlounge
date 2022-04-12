@@ -1,94 +1,76 @@
-{% extends "managementBase.html" %}
-
-{% block mainmenu %}
-<i class='bx bx-bell' ></i>
-<i class='bx bx-calendar-event' ></i>
-<i class='bx bxs-dashboard' ></i>
-<i class='bx bx-bar-chart' ></i>
-<i class='bx bxs-user' ></i>
-{% endblock %}
 
 
-{% block submenu %}
-
-<p class="nav-view-title">Dashboard</p>
-
-<ul>
+<ul class="nav-side-bar">
     <li>
-        <a class="nav-link active" href="{{ url_for('home') }}">
+        <a id="dashboard-nav-option" class="nav-link" href="{{ url_for('mdashboard') }}">
             <i class='bx bxs-dashboard'></i>
-            <span>Overview</span> 
+            <span> Dashboard</span> 
+        </a>
+    </li>
+
+    <li>
+        <a id="notifs-nav-option" class="nav-link" href="{{ url_for('mnotifications') }}">
+            <i class='bx bx-notification'></i>
+            <span> Messages</span>
+            <span class="notificationsCount"> 1</span>
+        </a>        
+    </li>
+
+
+    <li>
+        <a id="menus-nav-option" id="menu-manager-link" class="nav-link" href="{{ url_for('mmenu') }}">
+            <i class='bx bx-food-menu' ></i>
+            <span> Menu Management</span> 
         </a>
     </li>
     <li>
-        <a class="nav-link active" href="{{ url_for('home') }}">
+        <a id="orders-nav-option" class="nav-link" href="{{ url_for('morders') }}">
             <i class='bx bx-cart' ></i>
-            <span>Orders</span> 
+            <span> Orders</span> 
         </a>
     </li>
     <li>
-        <a class="nav-link active" href="{{ url_for('home') }}">
+        <a id="event-nav-option" id="event-nav-option" class="nav-link" href="{{ url_for('mevents') }}">
             <i class='bx bx-calendar-event' ></i>
-            <span>Events</span>
+            <span> Events</span>
         </a>
     </li>
     <li>
-        <a class="nav-link active" href="{{ url_for('home') }}">
+        <a id="reservations-nav-option" class="nav-link" href="{{ url_for('mreservations') }}">
             <i class='bx bx-calendar-event' ></i>
-            <span>Reservations</span>
+            <span> Reservations</span>
             
         </a>
     </li>
 
+    <li>
+        <a id="customers-nav-option" class="nav-link" href="{{ url_for('mcustomers') }}">
+            <i class='bx bxs-user-detail' ></i>
+            <span> Customers</span>
+        </a>        
+    </li>
+
+    <li>
+        <a class="nav-link" href="{{ url_for('logout') }}">
+            <i class='bx bx-log-out' ></i>
+            <span> Logout</span>
+        </a>
+    </li>
+
 </ul>
-{% endblock %}
+
+<div class="admin-credentials">
+    <img src="{{ url_for('get_image', filename='demitri.png') }}" class="profile-image">
+    <div>
+        <p class="nav-view-title" style="color:#b297e9;">Demitri Grant</p>
+        <p class="nav-view-email">demitri.grant@gmail.com</p>
+    </div>
+</div>
 
 
+<!-- 
 
-<!-- <li>
-    <a class="nav-link active" href="{{ url_for('home') }}">Notifications</a>
-    <span class="notificationsCount"></span>
-</li>
-<li>
-    <a class="nav-link active" href="{{ url_for('home') }}">Analytics</a>
-</li> -->
 
-{% block main %}
-    <table id="customer-events-table">
-        <tr>
-            <th>Invoice</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Customer</th>
-            <th>Price</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td> <input type="checkbox" name="" id=""> INV-3066</td>
-            <td>Jan 6, 2022</td>
-            <td>
-                <select name="" id="">
-                    <option value="pending" selected>pending</option>
-                    <option value="pending">approved</option>
-                    <option value="pending">waiting</option>
-                    <option value="pending">cancelled</option>
-                </select>
-            </td>
-            <td class="customer-credentials">
-                <span class="profile-picture">DG</span>
-                <div>
-                    <span style="display: block;">Demitri Grant</span>
-                    <span style="display: block;">demitri.grant@gmail.com</span> 
-                </div>
-                
-            </td>
-            <td>$10,000.00 JMD</td>
-            <td>
-                <button class="view-order-invoice-btn">View Invoice</button>
-            </td>
-        </tr>
-    </table>
-{% endblock %}
 
 {% block scripts %}
   <script>
@@ -103,4 +85,4 @@
       });
     });
   </script>
-{% endblock %}
+{% endblock %} -->
