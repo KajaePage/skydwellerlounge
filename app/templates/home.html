@@ -2,9 +2,40 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+
+<style>
+.heroimageContainer {
+    height: 100vh;
+}
+
+body {
+    padding:0;
+}
+
+img.heroimage {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 100%;
+    padding: 0%;
+}
+
+
+</style>
+
 {% endblock %}
 
 {% block main %}
+
+<div class="heroimageContainer">
+<img class="heroimage" src="{{ url_for('get_image', filename='homepage3.jpg') }}" alt="">
+
+</div>
+
 {% endblock %}
 
 {% block js %}

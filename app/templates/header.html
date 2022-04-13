@@ -30,15 +30,12 @@
         
         {% if current_user.is_authenticated %}
         
-          <div style="display: inline;">
-            <i onclick="openCart()" class='bx bx-cart b' id="clickbait"></i>
-            <span class="notifCount" id="notifCountCart"></span>
-          </div>
+          
           <i class='bx bx-bell b' ></i>
           <i class='bx bx-chevron-down' onclick="show('customer-profile-nav-id')"></i>
           <li class="nav-item">
             <a class="nav-link" >
-              <img src="{{ url_for('get_image', filename='demitri.png') }}" class="profile-image" onclick="show('customer-profile-nav-id')">
+              <img src="{{ url_for('get_image', filename='default1.png') }}" class="profile-image" onclick="show('customer-profile-nav-id')">
             </a>
           </li>
 
@@ -62,19 +59,44 @@
             
           </div>
 
-          <div id="cartContainer">
-            
-            
-          </div>
+          
 
         {% else %}
+        
             <li class="nav-item">
                 <a class="nav-link btn" href="{{ url_for('login') }}">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link btn" href="{{ url_for('createAccount') }}">Create Account</a>
             </li>
+
+            
+            {%block css%}
+
+            <style>
+
+            .bx-cart.b:before {
+                top: 28% !important;
+                right: 120% !important;
+            }
+
+          span#notifCountCart {
+              top: 10% !important;
+              right: 112%!important;
+          }
+          </style>
+          {%endblock%}
+          
         {% endif %}
+
+        <div id="cartContainer">
+          
+        </div>
+
+        <div style="display: inline;">
+          <i onclick="openCart()" class='bx bx-cart b' id="clickbait"></i>
+          <span class="notifCount" id="notifCountCart"></span>
+        </div>
     </ul>
     </div>
   </div>

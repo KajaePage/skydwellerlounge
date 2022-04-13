@@ -17,7 +17,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Handlee&family=Playfair+Display&display=swap" rel="stylesheet">
+
+
     {% block css %} {% endblock%}
   </head>
   <body>
@@ -31,11 +33,12 @@
     </main>
     <footer>
         <div class="container">
-            {% include "footer.html" %}
+            <!-- {% include "footer.html" %} -->
         </div>
     </footer>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="../static/js/header.js"></script>
     <script type="text/javascript" charset="utf8" src="../static/js/cart.js"></script>

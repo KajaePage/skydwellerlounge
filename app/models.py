@@ -1,10 +1,13 @@
 from . import db
 from werkzeug.security import generate_password_hash
 import psycopg2
+from sqlalchemy.dialects.postgresql import JSON
+from psycopg2.extensions import register_adapter
+import json
 
 
 class CustomerAccount(db.Model):
-    __tablename__ = 'Customer_Accounts'
+    __tablename__ = 'accounts'
 
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(80))
@@ -47,42 +50,69 @@ class CustomerAccount(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.name)
 
+    def get_email(email):
+        db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+        cur = db.cursor()
+        cur.execute("select * from accounts where email = %s", (email,))
+        item = cur.fetchall()
+        
+        if len(item) == 0:
+            return 0 
+        else:
+            return item[0][3]
 
-class Event(db.Model):
-    __tablename__ = 'events'
+
+class Reservations(db.Model):
+    __tablename__= 'reservations'
 
     id = db.Column(db.Integer, primary_key=True)
     customerid = db.Column(db.Integer)
-    eventtype = db.Column(db.String(80))
+    reservationstype = db.Column(db.String(80))
     session = db.Column(db.String(80))
-    eventstatus = db.Column(db.String(80))
-    eventdate = db.Column(db.String(80))
-    eventtime = db.Column(db.String(80))
+    reservationsstatus = db.Column(db.String(80))
+    reservationsdate = db.Column(db.String(80))
+    reservationstime = db.Column(db.String(80))
     expectguestCount = db.Column(db.Integer)
     tablecount = db.Column(db.Integer)
     specialrequests = db.Column(db.String(1000))
     phonenumber = db.Column(db.String(80))
 
 
-    def __init__(self, eventType, session, eventDate, eventTime, expectGuestCount, tableCount, specialRequests, phonenumber, customerid):
+    def __init__(self, reservationsType, session, reservationsDate, reservationsTime, expectGuestCount, tableCount, specialRequests, phonenumber, customerid):
         self.customerid = customerid
-        self.eventtype = eventType
+        self.reservationstype = reservationsType
         self.session = session
-        self.eventstatus = "pending"
-        self.eventdate = str(eventDate)
-        self.eventtime = str(eventTime)
+        self.reservationsstatus = "pending"
+        self.reservationsdate = str(reservationsDate)
+        self.reservationstime = str(reservationsTime)
         self.expectguestcount = int(expectGuestCount)
         self.tablecount = int(tableCount)
         self.specialrequests = specialRequests
         self.phonenumber = phonenumber
 
     
-    def del_event(id):
+    def del_reservations(id):
         db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
         cur = db.cursor()
-        cur.execute("DELETE FROM events WHERE id = %s", (id,))
+        cur.execute("DELETE FROM reservations WHERE id = %s", (id,))
         db.commit()
 
+    def update_status(status, id):
+        db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+        cur = db.cursor()
+        cur.execute("UPDATE reservations SET reservationsstatus = %s WHERE id = %s", (status, id))
+        updated_rows = cur.rowcount
+        db.commit()
+        cur.close()
+
+    def get_reservations(date):
+        return Reservations.query.filter(Reservations.reservationsdate >= date).all()
+    
+    def del_item(id):
+        db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+        cur = db.cursor()
+        cur.execute("DELETE FROM reservations WHERE id = %s", (id,))
+        db.commit()
 
     
 class Menu(db.Model):
@@ -131,25 +161,56 @@ class Menu(db.Model):
 
 
 class Order(db.Model):
-    __tablename__ = 'order'
+    __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    customerid = db.Column(db.String(80))
-    itemid = db.Column(db.String(80))
-    itemname = db.Column(db.String(80))
-    itemtype = db.Column(db.String(80))
-    quantity = db.Column(db.Integer)
-    price = db.Column(db.Integer)
+    customerid = db.Column(db.Integer)
+    orderdetails = db.Column(JSON)
+    status = db.Column(db.String(200))
 
 
-    def __init__(self, customerid, itemid, itemname, itemtype, quantity, price):
-        self.customerid = customerid
-        self.itemid = itemid
-        self.itemname = itemname
-        self.itemtype = itemtype
-        self.quantity = quantity
-        self.price = price
+
+
+
+
+
+class Cart(db.Model):
+    __tablename__ = 'cart'
+    id = db.Column(db.Integer, primary_key=True)
+    customerid = db.Column(db.Integer)
+    cartinfo = db.Column(JSON)
+
+    # def __init__(self, orderdetails):
 
     
+    def is_present(id):
+        try:
+            db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+            cur = db.cursor()
+            cur.execute("select * from cart where customerid = %s", (id,))
+            item = cur.fetchall()
+            
+            if len(item) == 0:
+                return False 
+            else:
+                return True
+        except:
+            return False
+
+    def get_cartData(id):
+        db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+        cur = db.cursor()
+        cur.execute("select * from cart where customerid = %s", (id,))
+        item = cur.fetchall()
+
+        return item[1]
+
+
+    def remove(id):
+        db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+        cur = db.cursor()
+        cur.execute("DELETE FROM cart WHERE id = %s", (id,))
+        db.commit()
+        cur.close()
 
 
 

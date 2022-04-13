@@ -2,18 +2,18 @@
 
 {%block main%}
 
-    <form action="{{ url_for('bookevent') }}" method="post">
+    <form action="{{ url_for('makereservations') }}" method="post">
 
         <div class="form_container">
             {{form.csrf_token}}
-            {{form.eventType(class="form-control")}}<i role="presentation" class="open-indicator"></i>
+            {{form.reservationsType(class="form-control")}}<i role="presentation" class="open-indicator"></i>
             {{form.session(class="form-control")}}
             {{form.expectGuestCount(class_="form-control", placeholder="How many guests?")}}
             {{form.tableCount(class_="form-control", placeholder="No. of Tables")}}
             
-            {{form.eventDate(class="form-control", placeholder="Event Name")}}
+            {{form.reservationsDate(class="form-control", placeholder="Reservations Name")}}
             
-            {{form.eventTime(class_="booking-time-container")}}
+            {{form.reservationsTime(class_="booking-time-container")}}
             {{form.phonenumber(class_="form-control", placeholder="Phone Number")}}
             {{form.specialRequests(class_="form-control", placeholder="Special Requests")}}
 

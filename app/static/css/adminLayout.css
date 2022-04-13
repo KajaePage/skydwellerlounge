@@ -225,18 +225,23 @@ i.bx {
 }
 
 
-#add-item-form {
-    display: none;    
+.form-container.lightbox {
+    display: none;
     width: auto;
     position: fixed;
     padding: 30px 40px;
     background-color: white;
     filter: drop-shadow(0px 0px 500px #000000);
     top: 10px;
-    left: 44%;
+    z-index: 3;
+    left: 30%;
+    min-width: 33%;
 }
 
-
+input#status {
+    margin: 20px 20px;
+    width: 80%;
+}
 
 label {
     font-size: 14px;

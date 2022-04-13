@@ -6,13 +6,14 @@ This file creates your application.
 """
 import os
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash, send_from_directory
+from flask import render_template, request, redirect, url_for, flash, send_from_directory, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
 
 
 from app.forms import AddDrinkMenuItem
 from app.forms import Delete
+from app.forms import UpdateStatus
 from app.models import Menu
 
 import locale 
@@ -26,8 +27,13 @@ cust = 0
 
 import psycopg2
 
+# db = psycopg2.connect(host="localhost",database="SDUL Database", user="demitri", password="sky")
+# cur = db.cursor()
+# cur.execute("DELETE FROM cart WHERE id = %s", (0,))
+# print('should delte')
+# db.commit()
 
-Menu.update_Row("cocktail","Lemonade Frozen"," ",500,1,"Syrup mixed with lime juice and garnished with lemon wheel."," ", 1)
+# Menu.update_Row("cocktail","Lemonade Frozen"," ",500,1,"Syrup mixed with lime juice and garnished with lemon wheel."," ", 1)
 
 
 
@@ -64,7 +70,12 @@ def createAccount():
             db.session.add(customer)
             db.session.commit()
 
-            return redirect(url_for('home'))
+            login_user(customer)
+            name = customer.firstname + customer.lastname 
+
+            global cust 
+            cust = customer.id
+            return redirect(url_for("myprofile"))
 
     return render_template("newAccount.html" , form = form)
 
@@ -74,7 +85,63 @@ def createAccount():
 def contact():
     return render_template('contact.html')
 
-@app.route('/drinksmenu')
+
+
+from app.models import Cart
+
+@app.route('/process', methods=['GET','POST'])
+def processCart():
+
+    recieved = False
+    if request.method == 'POST':
+        cart = request.get_json(force=True)
+        
+        if cart:
+            
+            if Cart.is_present(cust):
+                Cart.remove(cust)
+                addCart = Cart(customerid= cust, cartinfo={'cart':cart})
+                db.session.add(addCart)
+                db.session.commit()
+
+            else:
+                addCart = Cart(customerid= cust, cartinfo={'cart':cart})
+                db.session.add(addCart)
+                db.session.commit()
+
+            return jsonify({'message': "Data recieved"})
+        
+        else:
+            return jsonify({'error' : 'Data missing'})
+
+    elif  request.method == 'GET':
+        return jsonify({'message': 'hello'})
+
+
+from app.models import Order
+
+@app.route('/placedorder', methods=['POST', 'GET'])
+@login_required
+def placeorder():
+    if request.method=='POST':
+        print('Post processed successfully...')
+        placeorder = request.get_json(force=True)
+        print(placeorder)
+        
+        if placeorder:
+            print("place order")
+            addOrder = Order(customerid= cust, orderdetails={'cart':placeorder},status='pending')
+            db.session.add(addOrder)
+            db.session.commit()
+            return redirect(url_for("myprofile"))
+
+        else:
+            return jsonify({'message': "Data error"})
+    return redirect(url_for("login"))
+            
+
+
+@app.route('/drinksmenu', methods=['GET','POST'])
 def viewmenu():
 
     cocktailItems = Menu.getby_itemType("cocktail")   
@@ -82,35 +149,36 @@ def viewmenu():
     redwineItems = Menu.getby_itemType("red-wine") 
     whitewineItems = Menu.getby_itemType("white-wine") 
 
+    
 
     return render_template('drinksmenu.html', cocktailItems= cocktailItems, mixerItems=mixerItems, redwineItems=redwineItems, whitewineItems=whitewineItems)
 
 
-from app.forms import BookEventForm
-from app.models import Event
+from app.forms import BookReservationsForm
+from app.models import Reservations
 
 @app.route('/make/reservations', methods = ['GET', 'POST'])
 @login_required
 def makereservations():
-    form = BookEventForm()
+    form = BookReservationsForm()
 
     if request.method == 'POST':
         # if form.validate_on_submit():
-        eventType = str(request.form['eventType'])
+        reservationsType = str(request.form['reservationsType'])
         session = str(request.form['session'])
-        eventDate = str(request.form['eventDate'])
-        eventTime = str(request.form['eventTime'])
+        reservationsDate = str(request.form['reservationsDate'])
+        reservationsTime = str(request.form['reservationsTime'])
         expectGuestCount = str(request.form['expectGuestCount'])
         tableCount = str(request.form['tableCount'])
         specialRequests = str(request.form['specialRequests'])
         phonenumber = str(request.form['phonenumber'])
 
-        print(cust)
-        event = Event(eventType, session, eventDate, eventTime, expectGuestCount, tableCount, specialRequests, phonenumber, cust)
-        db.session.add(event)
+        print(reservationsType, session, reservationsDate, reservationsTime, expectGuestCount, tableCount, specialRequests, phonenumber, cust)
+        reservations = Reservations(reservationsType, session, reservationsDate, reservationsTime, expectGuestCount, tableCount, specialRequests, phonenumber, cust)
+        db.session.add(reservations)
         db.session.commit()
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('myprofile'))
 
     return render_template('makereservations.html', form = form)
 
@@ -121,30 +189,18 @@ def bookevent():
     return render_template('eventCalender.html')
 
 
-@app.route('/myorder', methods = ['GET', 'POST'])
-@login_required
-def myorders():
-    return render_template('myorders.html')
-
-
-@app.route('/myprofile', methods = ['GET', 'POST'])
-@login_required
-def myprofile():
-    return render_template('myprofile.html')
-
-
-
-
 
 def get_customer_info(customer):
     customerinfo = [customer]
 
     return customerinfo
 
-@app.route('/myprofile')
+@app.route('/myprofile', methods = ['GET', 'POST'])
 @login_required
-def profile():
-    return render_template('profile.html', customerinfo = get_customer_info(cust))
+def myprofile():
+
+    return render_template('myprofile.html', customerinfo = get_customer_info(cust))
+
 
 
 ###
@@ -174,42 +230,58 @@ def login():
                 cust = customer.id
 
                 print(cust)
-                return redirect(url_for("profile"))
+                return redirect(url_for("myprofile"))
 
     return render_template('login.html', form = form)
 
 
 # Management View Routes
-@app.route("/events")
-def mevents():
+@app.route("/reservations", methods=['GET','POST'])
+def mreservations():
+
+    update = UpdateStatus()
+    delete = Delete()
     from datetime import datetime
     today = datetime.today().strftime('%Y-%m-%d')
-    print(today)
-    events = Event.query.filter(Event.eventDate >= today).all()
-    return render_template('mevents.html', events=events)
+    reservations = Reservations.get_reservations(today)
+
+    if request.method == 'POST':
+        if delete.validate_on_submit():
+            id = request.form['delete']
+            Reservations.del_item(id)
+            return redirect(url_for("mreservations"))
+
+        if update.validate_on_submit():
+            updateid = request.form['updateid']
+            status = request.form['status']
+            Reservations.update_status(status,updateid)
+            return redirect(url_for("mreservations"))
+
+    return render_template('mreservations.html', reservations=reservations, update = update, delete =delete)
 
 
 @app.route("/dashboard")
 def mdashboard():
-    events = db.session.query(Event).all()
+    reservations = db.session.query(Reservations).all()
 
-    return render_template('mdashboard.html', events=events, active='active')
+    return render_template('mdashboard.html', reservations=reservations, active='active')
 
 
 @app.route("/notifications")
 def mnotifications():
-    events = db.session.query(Event).all()
-    return render_template('mnotifications.html', events=events, active='active')
+    reservations = db.session.query(Reservations).all()
+    return render_template('mnotifications.html', reservations=reservations, active='active')
 
 
 @app.route("/manageorders")
 def morders():
+    
     return render_template('morders.html', active='active')
 
-@app.route("/reservations")
-def mreservations():
-    events = db.session.query(Event).all()
-    return render_template('mreservations.html', events=events, active='active')
+@app.route("/events")
+def mevents():
+    # events = db.session.query(Event).all()
+    return render_template('mevents.html') #, events=events, active='active')
 
 
 
@@ -268,8 +340,21 @@ def get_image(filename):
 
 
 
-@app.route("/logout")
+
+
+@app.route("/update", methods=['GET','POST'])
 def logout():
+    # cart = AddToCart()
+
+    # if request.method == 'POST':
+    #     if cart.validate_on_submit():
+    #         cartInfo = request.form['cartInfo']
+
+    #         addCart = Cart(cust, cartInfo)
+    #         db.session.add(addCart)
+    #         db.session.commit()
+
+
     logout_user()
     return redirect(url_for("home"))
 

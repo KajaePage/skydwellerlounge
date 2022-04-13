@@ -1,53 +1,12 @@
 {% extends "managementBase.html" %}
 
 {% block main %}
-<div class="table-container">
-    <h1 class="header-trail" style="color:#b297e9;">Managent System | <span style="color:#6949a9;margin-left: 10px;">Events</span></h1>
-    <table id="customer-events-table" class="hover">
-        <thead>
-            <tr>
-                <th class="first-td">Event ID</th>
-                <th>Event Type</th>
-                <th>Session</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event in events %}
-                <tr class="{{ event.id }}">
-                    <td class="first-td" >{{ event.id }}</td>
-                    <td>{{ event.eventType }}</td>
-                    <td>{{ event.session }}</td>
-                    <td>{{ event.eventStatus }}</td>
-                    <td>{{ event.eventDate }}</td>
-                    <td>{{ event.phonenumber }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>        
-    </table>
-</div>    
+
+
 {% endblock %}
 
 {% block js %}
   <script>
-    $(document).ready(function () {
-      $('#customer-events-table').DataTable({
-        columns: [
-          null,
-          {searchable: true},
-          {orderable: true, searchable: true},
-          {orderable: true, searchable: true},
-          null,
-          null],
-        "scrollY": "95vh",
-        "scrollCollapse": true,
-        stateSave: true
-      });
-    });
-
-
-    $('#event-nav-option').toggleClass('active');
+    $('#reservations-nav-option').toggleClass('active');
   </script>
 {% endblock %}

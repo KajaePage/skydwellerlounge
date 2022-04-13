@@ -110,7 +110,7 @@ function bodyContainer(){
         revert.children[i].style.display="block"        
     }
     
-    var formContainer = document.getElementById('add-item-form')
+    var formContainer = document.getElementsByClassName('lightbox')[0]
     formContainer.style.display = "none";
 
     $('#uploadForm')[0].reset()
@@ -147,6 +147,16 @@ function showDeleteForm(){
 
 
 function activateLightBox(){
-    var formContainer = document.getElementById('add-item-form')
+    var formContainer = document.getElementsByClassName('lightbox')[0]
     formContainer.style.display = "block";
+}
+
+
+function updateReservation(id){ 
+    activateLightBox()
+    hideDeleteForm()
+
+    var uploadForm = document.getElementById('updateid')
+    uploadForm.style.display = "none";
+    uploadForm.value = id
 }

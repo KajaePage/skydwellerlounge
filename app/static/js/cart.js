@@ -24,12 +24,15 @@ function addToCart(id, name, cost, type){
     globalcart = JSON.stringify(cart)
     sessionStorage.setItem("cart", globalcart)
     
-  
+    console.log(cart)
+    console.log(JSON.stringify(cart))
+
+
     present = false
     globalcart = []
 
+    
     updateCart()
-
 }
 
 
@@ -49,12 +52,9 @@ function openCart(){
 }
 
 function updateCart(){
-    
-    var add = ` <div id="allCartItems">`
+
+    var add = `<h6>Your Cart<h6>`
     var cartContainer =  document.getElementById("cartContainer") 
-
-    
-
     
     if (sessionStorage.cart !== undefined){
         cart = JSON.parse(sessionStorage.cart)
@@ -92,7 +92,7 @@ function updateCart(){
         <hr style="margin: 20px 0px;">
         <div>
             <h6 style="margin: 20px;">Total: <span style="margin-left: 55%;">${formatMoney(total)}</span></h6>
-            <button id="placeOrderButton">Place Order</button>
+            <a class="nav-link" href="http://localhost:8080/myprofile"><button onclick="placeOrder()" id="placeOrderButton">Place Order</button></a>
         <div>
     `
     cartContainer.innerHTML = add
@@ -170,3 +170,41 @@ function removefromCart(e,id){
     }    
 
 }
+
+
+
+function placeOrder(){
+    
+    if (sessionStorage.cart !== undefined){
+        console.log('push')
+        cart = JSON.parse(sessionStorage.cart)
+        $.ajax({
+            data : JSON.stringify(cart),
+            type: 'POST',
+            url : '/placedorder'
+        }) 
+    }    
+
+    sessionStorage. clear();
+    cart = []
+    cartContainer.innerHTML = `<h6>Empty Cart<h6>`
+    document.getElementById("notifCountCart").innerHTML = " "
+
+
+}
+
+
+// $.ajax({
+//     data : JSON.stringify(cart),
+//     type: 'POST',
+//     url : '/process'
+// })
+
+
+//  $.ajax('/process', {
+    //     success: function (data, status, xhr) {// success callback function
+    //         var test = data
+            
+    //          console.log(test)
+    //     }
+    //  });

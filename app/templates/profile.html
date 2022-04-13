@@ -1,5 +1,39 @@
 {% extends "base.html" %}
 
 {%block main%}
-    <p>{{ customerinfo[0].firstname }}</p>
+    
+    <div class="table-container">
+
+        <p><h1 class="header-trail" style="color:#b297e9;">Managent System |  <span style="color:#6949a9;margin-left: 10px;"> Menu Management</span></h1></p>
+        
+
+        <div class="cocktail-table-container drink-tables-containers">
+            <h1 class="header-trail">Cocktail Menu</h1>
+            <button onclick="addCocktail()" class="add-button"><i class='bx bx-list-plus'></i></button>
+            <table id="menu-tables" class="hover">
+                <thead>
+                    <tr>
+                        <th class="icon-column first-td"></th>
+                        <th class="icon-column"></th>
+                        <th>Order Number</th>
+                        <th>Order Status</th>
+                        <th>Order Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cocktailItem in cocktailItems %}
+                    <tr class="cocktail-drinks-table-data">
+                        <td class="icon-column first-td"><p style="text-align: center;margin:0;"><i onclick="deleteItem('{{cocktailItem[0]}}')" class='bx bx-trash'></i></i></p></td>
+                        <td class="icon-column"><p style="text-align: center;margin:0;"><i onclick="updateItem('{{cocktailItem[0]}}')" class='bx bxs-edit-alt' ></i></p></td>
+                        <td class="item-name">Order</td>
+                        <td class="item-description">{{cocktailItem[6]}}</td>
+                        <td class="item-price money">{{cocktailItem[4]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+
 {%endblock%}

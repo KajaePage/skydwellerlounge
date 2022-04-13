@@ -2,25 +2,207 @@
 
 {% block main %}
 
-<form action="{{url_for('createAccount')}}" method = "post">
+<div id="loginFormContainer">
+    <div class="login-form center-block">
+      <form action="{{url_for('createAccount')}}" method="post" class="login-form">
+        <div class="form_container">
+          <h6><a href="{{ url_for('home') }}"><img src="{{ url_for('get_image', filename='logo.png') }}" id="logo"></a>  Sky Dweller Ultra Lounge</h6>
+          <h3>Register Account</h3>
+          <p>Welcome! Please enter your details.</p>
 
-    <div class="form_container">
-        {{ form.csrf_token }}
+          {{ form.csrf_token }}
+          <div class="form-group">
+            
+            <div class="nameHolder">
+                {{form.firstname.label}}
+                {{ form.firstname(class_="login-form-control", placeholder = "Firstname") }}
+            </div>
+
+            <div class="nameHolder">
+                {{form.lastname.label}}
+                {{ form.lastname(class_="login-form-control", placeholder = "Lastname") }}
+            </div>
+          </div>
+          <div class="form-group">
+              <div >                
+                {{form.email.label}}
+                 
+                {% include 'flash_messages.html' %}
+                {{ form.email(class_="login-form-control", placeholder = "Email") }}
+              </div>
+
+              <div >
+                {{form.password.label}}
+                {{ form.password(class_="login-form-control", placeholder = "Password") }}
+              </div>
+            
+          </div>
+          <button type="submit" name="submit" class="login-btn">Create Account</button>
+          <hr>
+        <p>Already have an account? <a href="{{ url_for('login') }}"><span>Login now</span></a></p>
+        </div>
+          
+      </form>
+    </div>
     
-        {{ form.firstname(class_="form-control", placeholder = "Firstname") }}
-
-        {{ form.lastname(class_="form-control", placeholder = "Lastname") }}
-
-        {{ form.email(class_="form-control", placeholder = "Email") }}
-
-        {{ form.password(class_="form-control", placeholder = "Password") }}
-
-        <button type="submit" name="submit" class="btn btn-primary btn-block">Create Account</button>
- 
-    </div> 
+    <div id="loginImageContainer">
+      <img src="{{ url_for('get_image', filename='loginpageimage1.png') }}" id="loginPerson">
+    </div>
 
     
-    
-</form>
+  </div>
+
+
+{% endblock %}
+
+
+{%block css%}
+<style>
+
+.nameHolder {
+    width: 47%;
+    margin-right: 2%;
+    display: inline-block;
+}
+
+.form_container {
+    width: 60%;
+    margin-right: 10%;
+}
+
+
+span {
+    font-weight: 500;
+    color: brown;
+    font-style: italic;
+    text-decoration: inherit;
+}
+
+  #logo{
+    width: 27px;
+  }
+
+  .navbar{
+      display:none;
+  }
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 100%;
+    padding: 0%;
+  }
+
+  body {
+    padding-top: 0;
+    background-color: white;
+}
+
+div#loginFormContainer {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+div#loginImageContainer {
+    width: 40vw;
+    background-color: #c7821e;
+    position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 60vw;
+}
+
+footer {
+    display: none;
+}
+
+
+.login-form-control {
+  width: 100%;
+    height: 48px;
+    margin: 15px 0px;
+    border-radius: 2px;
+    border: 1px solid #00000044;
+    padding: 0px 10px;
+    color: #032B38;
+}
+
+.login-form-control:hover {
+    filter: drop-shadow(2px 2px 4px #00000033);
+}
+
+button.login-btn {
+    width: 180px;
+    height: 60px;
+    border-radius: 3px;
+    background-color: #032B38;
+    color: white;
+    font-size: 17px;
+    border: none;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+
+button.login-btn:hover {
+    filter: drop-shadow(2px 2px 4px #00000033);
+}
+
+p {
+    font-weight: 300;
+    font-size: 14px;
+}
+
+h3 {
+    color: #032b38;
+    margin-top: 55px;
+    font-size: 30px;
+    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif; 
+}
+
+h6 {
+    color: #032b38;
+}
+
+#loginPerson {
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto 0;
+}
+
+.form_container {
+    width: 70%;
+}
+
+
+.alert {
+    position: relative;
+    padding: 2px 2px !important;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0 !important;
+    font-size: 13px;
+    margin: 0 !important;
+    color: brown;
+    background: #efb9b9;
+}
+</style>
 
 {% endblock %}

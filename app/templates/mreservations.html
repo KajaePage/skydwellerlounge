@@ -3,10 +3,116 @@
 {% block main %}
 
 
+<div class="form-container lightbox">
+  <p class="close-popup"><i onclick="bodyContainer()" class='bx bx-x' ></i></p>
+  <form action="{{ url_for('mreservations') }}" method="post" id="uploadForm">
+      <h6 style="margin-left: 20px;font-size: 20px;">Update Reservations</h6>
+      <hr style="margin: 10px 20px;height: 1px;color: #adb5bd;">
+      <div class="form_container">
+        {{update.csrf_token}}
+        {{update.updateid(class="form-control")}}
+        {{update.status.label}}
+        {{update.status(class_="form-control", placeholder="Change Status:")}}
+      </div>      
+      <button type="submit" name="submit" class="btn btn-primary btn-block">Change Status</button>
+      
+  </form>
+
+  <form action="{{ url_for('mreservations') }}" method="post" style="display: block;" id="deleteItemForm">
+      <h6 style="margin-left: 20px;font-size: 20px;">Delete Menu Item</h6>
+      <hr style="margin: 5px 20px;height: 1px;color: #adb5bd;">
+      <p style="margin: 25px 20px;padding-right: 30px;font-size: 16px;">Are you sure you wish to delete this item from the menu? Doing so will result in an irreversible action.</p>
+      {{ delete.csrf_token }}
+      {{ delete.delete}}
+      <button type="submit" name="submit" class="btn-delete">Confirm Delete</button>
+      <button class="btn-delete" onclick="bodyContainer()">Cancel</button>
+      
+  </form>
+
+</div>
+
+
+<div class="table-container">
+    <h1 class="header-trail" style="color:#b297e9;">Managent System | <span style="color:#6949a9;margin-left: 10px;">Reservations</span></h1>
+    <table id="customer-reservations-table" class="hover">
+        <thead>
+            <tr>
+                <th class="first-td"></th>
+                <th ></th>
+                <th>Reservations ID</th>
+                <th>Reservations Type</th>
+                <th>Session</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservations in reservations %}
+                <tr class="{{ reservations.id }}">
+                    <td class="first-td" ><i onclick="deleteItem('{{reservations.id}}')" class='bx bx-trash'></i></i></td>
+                    <td class="icon-holder"><i class='bx bx-expand'></i></td>
+                    <td>{{ reservations.id }}</td>
+                    <td>{{ reservations.reservationstype }}</td>
+                    <td>{{ reservations.session }}</td>
+                    <td>{{ reservations.reservationsstatus }}<i onclick="updateReservation('{{reservations.id}}')" class='bx bxs-edit-alt' ></i></td>
+                    <td>{{ reservations.reservationsdate }}</td>
+                    <td>{{ reservations.phonenumber }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>        
+    </table>
+</div>    
 {% endblock %}
 
 {% block js %}
   <script>
+    $(document).ready(function () {
+      $('#customer-reservations-table').DataTable({
+        columns: [
+          null,
+          null,
+          null,
+          {searchable: true},
+          {orderable: true, searchable: true},
+          {orderable: true, searchable: true},
+          null,
+          null],
+        "scrollY": "95vh",
+        "scrollCollapse": true,
+        stateSave: true
+      });
+    });
+
+
     $('#reservations-nav-option').toggleClass('active');
   </script>
 {% endblock %}
+
+
+{%block css%}
+<style>
+  .bxs-edit-alt:before {
+    margin-left: 30px;
+  }
+
+  .form_container {
+    margin: 20px;
+}
+
+select#status {
+    margin-top: 10px;
+    width: 80%;
+}
+
+.bx-expand:before {
+    content: "\eacc";
+    margin-left: 10px;
+}
+
+td.first-td.sorting_1,.icon-holder {
+    border-right: 2px solid #f6f8fa;
+}
+
+</style>
+{%endblock%}

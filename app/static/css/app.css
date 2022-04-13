@@ -31,12 +31,6 @@ button.btn.btn-primary.btn-block {
     width: 390px;
 }
 
-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-brand{
     color: black;
     font-size: 14px;
@@ -57,11 +51,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.fixed-top {
     height: 70px;
 }
 
-a.nav-link.btn {
-    background-color: #d7a159;
-    margin: 0px 10px;
-    color: white !important;
-}
+
 
 ul.navbar-nav.right {
     position: absolute;
@@ -118,13 +108,15 @@ hr {
     right: 180%;
 }
 
-
-.bx-cart.b:before {
-    content: "\ea36";
-    position: absolute;
-    font-size: 20px;
-    top: 45%;
-    right: 145%;
+span#notifCountCart {
+    position: absolute;    
+    top: 30%;
+    right: 125%;
+    font-size: 10px;
+    background-color: #d97878;
+    color: white;
+    padding: 0px 4px;
+    border-radius: 10px;
 }
 
 ul.navbar-nav.mr-auto {
@@ -164,7 +156,13 @@ ul.navbar-nav.mr-auto {
     filter: none;
 }
 
-
+.bx-cart.b:before {
+    content: "\ea36";
+    position: absolute;
+    font-size: 20px;
+    top: 45%;
+    right: 135%;
+}
 
 
 ul{
@@ -343,17 +341,6 @@ div#allCartItems {
     overflow-y: scroll;
 }
 
-span#notifCountCart {
-    position: absolute;
-    top: 33%;
-    right: 136%;
-    font-size: 10px;
-    background-color: #d97878;
-    color: white;
-    padding: 0px 4px;
-    border-radius: 10px;
-}
-
 
 i.bx:hover {
     color: rgb(53, 150, 194)!important;
@@ -363,4 +350,13 @@ i.bx:hover {
 .navbar-expand-lg .navbar-collapse {
     margin-left: 60px;
     font-weight: 600;
+}
+
+a.nav-link.btn {
+    background: none;
+    color: #212529 !important;
+    padding: 7px !important;
+    margin: 0px !important;
+    font-size: 14px !important;
+    font-weight: 500;
 }
